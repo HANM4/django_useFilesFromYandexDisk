@@ -1,22 +1,24 @@
+from typing import List, Dict, Any, Optional
 from django.core.cache import cache
+from django.views.generic.edit import FormView
+from django.http import HttpResponse
 
+from django.shortcuts import render
 from .api import get_public_files_yandex_disk
 from .forms import TakeFilesYandexDiskOpenForm
-from django.views.generic.edit import FormView
-
 from .utils import get_file_type
 
 
 class TakeListFilesYandexDiskView(FormView):
-    title = 'List files Yandex Disk'
-    template_name = 'list_files_yandex_disk.html'
+    title: str = 'List files Yandex Disk'
+    template_name: str = 'list_files_yandex_disk.html'
     form_class = TakeFilesYandexDiskOpenForm
-    success_url = '/'
+    success_url: str = '/'
 
     # add link to form from session
-    def get_form_kwargs(self):
+    def get_form_kwargs(self) -> Dict[str, Any]:
         kwargs = super().get_form_kwargs()
-        form_data = self.request.session.get(
+        form_data: Optional[Dict[str, Any]] = self.request.session.get(
             'take_link_files_yandex_disk_open_form_data',
             None
         )
@@ -25,22 +27,23 @@ class TakeListFilesYandexDiskView(FormView):
         return kwargs
 
     # check form on valid
-    def form_valid(self, form):
+    def form_valid(self, form: TakeFilesYandexDiskOpenForm) -> HttpResponse:
         # add take_link_files_yandex_disk_open_form_data to session
         # from form sent data form
         self.request.session[
             'take_link_files_yandex_disk_open_form_data'] = form.cleaned_data
 
-        files = []
+        files: List[Dict[str, Any]] = []
         if self.request.method == "POST" and form.is_valid():
-            link = form.cleaned_data["link"]
-            file_type = form.cleaned_data["filter"]
+            link: str = form.cleaned_data["link"]
+            file_type: str = form.cleaned_data["filter"]
 
-            cache_key = f"yandex_disk_files_{link}"
+            cache_key: str = f"yandex_disk_files_{link}"
             files = cache.get(cache_key)
 
             if files is None:
-                data = get_public_files_yandex_disk(link)
+                data: Optional[Dict[str, Any]] = get_public_files_yandex_disk(
+                    link)
                 if data and "_embedded" in data:  # Checking for files in a public link
                     files = data["_embedded"]["items"]
                     cache.set(cache_key, files,
@@ -55,7 +58,7 @@ class TakeListFilesYandexDiskView(FormView):
         return self.render_to_response(context)
 
     # add custom data to context for use in tags template
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
         context['title'] = self.title
         return context
