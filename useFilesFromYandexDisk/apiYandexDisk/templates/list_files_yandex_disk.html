@@ -65,7 +65,10 @@
               </div>
               <tbody
                     class="bg-white divide-y overflow-x-auto divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
-                <tr>
+
+              {% if files %}
+              {% for item in files %}
+              <tr>
                   <td class="px-4 py-4 text-sm font-medium text-gray-700">
                     <div class="flex items-center gap-x-3">
                       <input type="checkbox"
@@ -82,35 +85,16 @@
                           </svg>
                         </div>
                         <h2 class="font-normal text-gray-800 dark:text-white ">
-                          Tech requirements.pdf</h2>
+                          {{ item.name }}</h2>
                       </div>
                     </div>
                   </td>
-                  <td class="px-12 py-4 text-sm font-normal text-gray-700 ">
-                    <div>
-                      <h3 class="font-normal text-gray-800 dark:text-white ">
-                        Size:</h3>
-                      <p class="text-xs font-normal text-gray-500 dark:text-gray-400">
-                        200 KB</p>
-                    </div>
-                  </td>
-                  <td class="hidden sm:table-cell px-4 py-4 text-sm text-gray-500 dark:text-gray-300 ">
-                    <div>
-                      <h3 class="font-normal text-gray-800 dark:text-white ">
-                        Added:</h3>
-                      <p class="text-xs font-normal text-gray-500 dark:text-gray-400">
-                        Jan 4, 2022</p>
-                    </div>
-                  </td>
-                  <td class="hidden sm:table-cell px-4 py-4 text-sm text-gray-500 dark:text-gray-300">
-                    <div>
-                      <h3 class="font-normal text-gray-800 dark:text-white ">
-                        Changed:</h3>
-                      <p class="text-xs font-normal text-gray-500 dark:text-gray-400">
-                        Jan 4, 2022</p>
-                    </div>
-                  </td>
                 </tr>
+              {% endfor %}
+              {% else %}
+              <p>Список файлов пуст.</p>
+              {% endif %}
+
               </tbody>
             </table>
           </form>
