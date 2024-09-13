@@ -13,8 +13,7 @@
 #data/
 data/nginx/logs
 /data/postgres/dir/
-/data/static
-
+/data/static/
 useFilesFromYandexDisk/static
 /media/
 
