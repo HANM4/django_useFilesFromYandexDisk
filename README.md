@@ -2,6 +2,7 @@
 Стк веб-приложения: TailwindCSS + npm + gulp + Django + Postgres + Gunicorn + Nginx + Docker.
 Use files Yandex Disk - это адаптивное веб-приложение которое позволяет пользователям просматривать и загружать
 файлы из Яндекс.Диска по публичной ссылке. Приложение использует API Яндекс.Диска для получения списка файлов.
+![image](https://github.com/user-attachments/assets/34c490f3-80b3-41a9-aa89-a6fcab4a8cb1)
 ## Запуск
 ### Запуск с помощью Docker
 1. `git clone https://github.com/HANM4/django_useFilesFromYandexDisk.git`
